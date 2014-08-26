@@ -47,14 +47,28 @@ def elnproduct(eln_x, eln_y):
 	else:
 		return eln_x + eln_y
 
-def elnForward(A_matrix, B_matrix, pi_vector, initialState_idx, observationSeq):
+def eexpOfElnArray(eln_array):
+
+	N = len(eln_array) # rows 
+	M = len(eln_array[0]) # columns
+
+	array = np.zeros((N,M))
+
+	for i in range(N):
+		for j in range(M):
+			array[i][j] = eexp(eln_array[i][j])
+
+	return array
+
+
+def elnForward(A_matrix, B_matrix, pi_vector, observationSeq):
 	
 	N 			= len(A[0])				# dimension of hidden states (A)
 	T 			= len(observationSeq) 	# length of observation sequence
 	eln_alpha 	= np.zeros((N,T)) 		# create alpha-variable
 
 	for i in range(N):
-		eln_alpha[i][0] = elnproduct( eln( pi[initialState_idx] ), eln( B_matrix[i][observationSeq[0]] ) )
+		eln_alpha[i][0] = elnproduct( eln( pi[i] ), eln( B_matrix[i][observationSeq[0]] ) )
 
 	for t in range(1,T):
 		for j in range(N):
